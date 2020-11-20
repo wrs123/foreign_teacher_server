@@ -1,8 +1,6 @@
-package com.ofg.foreign_teacher_server.domain;
+package com.ofg.foreign_teacher_server.domain.ex;
 
-import java.io.Serializable;
-
-public class WxCourse implements Serializable {
+public class ExWxCourse {
     private Long id;
 
     private String name;
@@ -15,9 +13,11 @@ public class WxCourse implements Serializable {
 
     private Integer type;
 
-    private Long coverId;
+    private String cover;
 
-    private Long areaId;
+    private String area;
+
+    Integer status;
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +27,14 @@ public class WxCourse implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getName() {
@@ -69,38 +77,19 @@ public class WxCourse implements Serializable {
         this.type = type;
     }
 
-    public Long getCoverId() {
-        return coverId;
+    public String getCover() {
+        return cover;
     }
 
-    public void setCoverId(Long coverId) {
-        this.coverId = coverId;
+    public void setCover(String coverId) {
+        this.cover = cover;
     }
 
-    public Long getAreaId() {
-        return areaId;
+    public String getArea() {
+        return area;
     }
 
-    public void setAreaId(Long areaId) {
-        this.areaId = areaId;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", description=").append(description);
-        sb.append(", price=").append(price);
-        sb.append(", classTime=").append(classTime);
-        sb.append(", type=").append(type);
-        sb.append(", coverId=").append(coverId);
-        sb.append(", areaId=").append(areaId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+    public void setArea(String areaId) {
+        this.area = area;
     }
 }

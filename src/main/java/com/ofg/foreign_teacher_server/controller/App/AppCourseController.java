@@ -1,6 +1,6 @@
 package com.ofg.foreign_teacher_server.controller.App;
 
-import com.ofg.foreign_teacher_server.domain.WxCourse;
+import com.ofg.foreign_teacher_server.domain.ex.BaseData;
 import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
 import com.ofg.foreign_teacher_server.service.IAppCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 课程控制器
@@ -23,23 +23,36 @@ public class AppCourseController {
     @Autowired
     private IAppCourseService appCourseService;
 
+    /**
+     * 获取课程列表
+     * @param type
+     * @return
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public BaseDataResult<WxCourse> list(Integer type){
-        BaseDataResult<WxCourse> list = new BaseDataResult<WxCourse>();
+    public BaseDataResult<Map<Object, Object>> list(Integer type, HttpServletRequest req){
+        BaseDataResult<Map<Object, Object>> list = new BaseDataResult<Map<Object, Object>>();
 
         if(type != null){
-            list = appCourseService.query(type);
+            list = appCourseService.list(type,null, req);
         }
-
-
         return list;
     }
 
-    @RequestMapping(value = "/z", method = RequestMethod.GET)
+    /**
+     * 获取课程详情
+     * @param courseId
+     * @return
+     */
+    @RequestMapping(value = "/details", method = RequestMethod.GET)
     @ResponseBody
-    public String a(){
+    public BaseData<Map<String, Object>> details(Long courseId){
+        BaseData<Map<String, Object>> result = new BaseData<Map<String, Object>>();
 
-        return "33";
+        result = appCourseService.getCourseDetails(courseId);
+
+        return result;
     }
+
+
 }

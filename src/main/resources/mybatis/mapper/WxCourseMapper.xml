@@ -9,6 +9,18 @@
     <result column="class_time" jdbcType="INTEGER" property="classTime" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="cover_id" jdbcType="BIGINT" property="coverId" />
+    <result column="area_id" jdbcType="BIGINT" property="areaId" />
+  </resultMap>
+  <resultMap id="ExBaseResultMap" type="com.ofg.foreign_teacher_server.domain.ex.ExWxCourse">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="class_time" jdbcType="INTEGER" property="classTime" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="path" jdbcType="VARCHAR" property="cover" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from wx_course
@@ -19,11 +31,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into wx_course (`name`, description, price, 
-      class_time, `type`, cover_id
-      )
+      class_time, `type`, cover_id, 
+      area_id)
     values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{classTime,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{coverId,jdbcType=BIGINT}
-      )
+      #{classTime,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{coverId,jdbcType=BIGINT}, 
+      #{areaId,jdbcType=BIGINT})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ofg.foreign_teacher_server.domain.WxCourse">
     update wx_course
@@ -32,22 +44,57 @@
       price = #{price,jdbcType=INTEGER},
       class_time = #{classTime,jdbcType=INTEGER},
       `type` = #{type,jdbcType=INTEGER},
-      cover_id = #{coverId,jdbcType=BIGINT}
+      cover_id = #{coverId,jdbcType=BIGINT},
+      area_id = #{areaId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, `name`, description, price, class_time, `type`, cover_id
+    select id, `name`, description, price, class_time, `type`, cover_id, area_id
     from wx_course
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, `name`, description, price, class_time, `type`, cover_id
+    select id, `name`, description, price, class_time, `type`, cover_id, area_id
     from wx_course
+  </select>
+  <select id="queryListByType" parameterType="java.lang.Integer" resultType="map">
+    select wc.id, wc.`name`, wc.description, wc.price, wc.class_time,
+    f.path as cover
+    from wx_course wc, sys_file f
+    where
+    <if test="type != null">
+      wc.type = #{type, jdbcType=INTEGER}
+    </if>
+    and f.id = wc.cover_id
+  </select>
+  <select id="queryListByUser" parameterType="java.util.Map" resultType="map">
+    select wc.id, wc.`name`, wc.description, wc.price, wc.class_time, wac.status as status,
+            f.path as cover
+    from wx_course wc, wx_authcourse wac, sys_file f
+    where
+      <if test="openId != null">
+        wac.user_open_id = #{openId, jdbcType=VARCHAR}
+      </if>
+      and wac.type = 1
+      <if test="type != null">
+        and wc.type = #{type, jdbcType=INTEGER}
+      </if>
+      and f.id = wc.cover_id and wc.id = wac.course_id
   </select>
 
-  <select id="queryListByType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, `name`, description, price, class_time, cover_id
-    from wx_course
-    where type = #{type, jdbcType=INTEGER}
+  <select id="queryById" parameterType="java.lang.Long" resultType="map" >
+    select wc.id, (
+        select count(if(wac.type = 1,true,null))
+        from wx_authcourse wac
+        where wac.course_id = wc.id
+    ) as learnCount,
+    (
+        select ifnull(count(if(wcm.star > 4, true, null))/count(wcm.star), 0)
+        from wx_comment wcm
+        where wc.id = wcm.course_id
+    ) as praiseRate
+    from wx_course wc
+    where wc.id = #{id, jdbcType=BIGINT}
   </select>
+
 </mapper>

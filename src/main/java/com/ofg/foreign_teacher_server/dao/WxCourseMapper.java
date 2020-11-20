@@ -1,7 +1,12 @@
 package com.ofg.foreign_teacher_server.dao;
 
 import com.ofg.foreign_teacher_server.domain.WxCourse;
+import com.ofg.foreign_teacher_server.domain.ex.ExWxCourse;
+import org.apache.ibatis.annotations.Param;
+
+
 import java.util.List;
+import java.util.Map;
 
 public interface WxCourseMapper {
     int deleteByPrimaryKey(Long id);
@@ -12,7 +17,12 @@ public interface WxCourseMapper {
 
     List<WxCourse> selectAll();
 
-    List<WxCourse> queryListByType(Integer type);
-
     int updateByPrimaryKey(WxCourse record);
+
+    List<Map<Object, Object>> queryListByType(Integer type);
+
+    List<Map<String, Object>> queryListByUser(Map<String, Object> map);
+
+    Map<String, Object> queryById(Long id);
+
 }

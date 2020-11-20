@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ofg.foreign_teacher_server.dao.WxCommentMapper">
+  <resultMap id="BaseResultMap" type="com.ofg.foreign_teacher_server.domain.WxComment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="delete_sign" jdbcType="INTEGER" property="deleteSign" />
+    <result column="recomment" jdbcType="VARCHAR" property="recomment" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+  </resultMap>
+  <resultMap id="ExResultMap" type="com.ofg.foreign_teacher_server.domain.ex.ExWxComment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="ctime" jdbcType="VARCHAR" property="ctime" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="star" jdbcType="BIGINT" property="star" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wx_comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ofg.foreign_teacher_server.domain.WxComment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_comment (content, ctime, delete_sign, 
+      recomment, user_id, course_id
+      )
+    values (#{content,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{deleteSign,jdbcType=INTEGER}, 
+      #{recomment,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ofg.foreign_teacher_server.domain.WxComment">
+    update wx_comment
+    set content = #{content,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      delete_sign = #{deleteSign,jdbcType=INTEGER},
+      recomment = #{recomment,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      course_id = #{courseId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, content, ctime, delete_sign, recomment, user_id, course_id
+    from wx_comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, content, ctime, delete_sign, recomment, user_id, course_id
+    from wx_comment
+  </select>
+
+  <select id="queryByCourseId" parameterType="java.lang.Long" resultMap="ExResultMap" >
+    select wc.id, wc.content, date_format(wc.ctime, '%m-%d %H:%i:%s') as ctime, wc.star, (
+        select nickname
+        from sys_user su
+        where su.id = wc.user_id
+    )as user_name,
+		(
+			select avatarurl
+      from sys_user su
+      where su.id = wc.user_id
+		)as avatar
+    from wx_comment wc
+    where wc.course_id = #{courseId, jdbcType=BIGINT}
+  </select>
+</mapper>
