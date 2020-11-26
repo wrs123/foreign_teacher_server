@@ -26,6 +26,13 @@ public class AppCourseService implements IAppCourseService {
     @Autowired
     private WxAuthcourseMapper authcourseMapper;
 
+    /**
+     * 获取课程列表
+     * @param type
+     * @param areaId
+     * @param req
+     * @return
+     */
     @Override
     public BaseDataResult<Map<Object, Object>> list(Integer type, Long areaId, HttpServletRequest req) {
         BaseDataResult<Map<Object, Object>> list = new BaseDataResult<Map<Object, Object>>();
@@ -44,6 +51,12 @@ public class AppCourseService implements IAppCourseService {
         return list;
     }
 
+    /**
+     * 发布课程
+     * @param course
+     * @param openId
+     * @return
+     */
     @Override
     public BaseData<String> postCourse(WxCourse course, String openId) {
         BaseData<String> res = new BaseData<String>();
@@ -71,6 +84,13 @@ public class AppCourseService implements IAppCourseService {
         return res;
     }
 
+    /**
+     * 获取订单列表
+     * @param openId
+     * @param type
+     * @param req
+     * @return
+     */
     @Override
     public BaseData<BaseDataResult<Map<String, Object>>> orderList(String openId, Integer type, HttpServletRequest req) {
         BaseData<BaseDataResult<Map<String, Object>>> res = new BaseData<BaseDataResult<Map<String, Object>>>();
@@ -103,6 +123,11 @@ public class AppCourseService implements IAppCourseService {
         return res;
     }
 
+    /**
+     * 获取课程详情
+     * @param courseId
+     * @return
+     */
     @Override
     public BaseData<Map<String, Object>> getCourseDetails(Long courseId) {
         BaseData<Map<String, Object>> res  = new BaseData<Map<String, Object>>();
@@ -115,6 +140,39 @@ public class AppCourseService implements IAppCourseService {
         }catch (Exception e){
             res.setMessage(e.getMessage());
             res.setCode(500);
+        }
+
+        return res;
+    }
+
+    /**
+     * 预约课程
+     * @param courseId
+     * @param openId
+     * @return
+     */
+    @Override
+    public BaseData<String> reservationCourse(Long courseId, String openId) {
+        BaseData<String> res = new BaseData<String>();
+        WxAuthcourse authcourse = new WxAuthcourse();
+
+
+        try{
+            authcourse.setUserOpenId(openId);
+            authcourse.setStatus(0);
+            authcourse.setType(1);
+            authcourse.setCourseId(courseId);
+
+            int status = authcourseMapper.insert(authcourse);
+            res.setResult("");
+            res.setStatus("success");
+            res.setCode(200);
+            res.setMessage("预约成功");
+
+        }catch (Exception e){
+            res.setCode(500);
+            res.setStatus("fail");
+            res.setMessage(e.getMessage());
         }
 
         return res;

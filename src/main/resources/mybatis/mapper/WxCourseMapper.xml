@@ -58,7 +58,16 @@
     from wx_course
   </select>
   <select id="queryListByType" parameterType="java.lang.Integer" resultType="map">
-    select wc.id, wc.`name`, wc.description, wc.price, wc.class_time,
+    select wc.id, wc.`name`, wc.description, wc.price, wc.class_time, (
+      select count(wac.type)
+      from wx_authcourse wac
+      where wac.course_id = wc.id and wac.type = 1
+    ) as authCourseCount,
+    (
+      select count(id)
+      from wx_comment wcm
+      where wcm.course_id = wc.id
+    ) as commentCount,
     f.path as cover
     from wx_course wc, sys_file f
     where

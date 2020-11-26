@@ -1,4 +1,4 @@
-package com.ofg.foreign_teacher_server.controller.App;
+package com.ofg.foreign_teacher_server.controller.Auth;
 
 import com.ofg.foreign_teacher_server.domain.SysUser;
 import com.ofg.foreign_teacher_server.domain.ex.BaseData;

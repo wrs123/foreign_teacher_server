@@ -5,6 +5,7 @@ import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
 import com.ofg.foreign_teacher_server.service.IAppCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,6 +51,22 @@ public class AppCourseController {
         BaseData<Map<String, Object>> result = new BaseData<Map<String, Object>>();
 
         result = appCourseService.getCourseDetails(courseId);
+
+        return result;
+    }
+
+    /**
+     * 课程预约
+     * @param courseId
+     * @param openId
+     * @return
+     */
+    @RequestMapping(value = "/reservation", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseData<String> details(Long courseId, String openId){
+        BaseData<String> result = new BaseData<String>();
+
+        result = appCourseService.reservationCourse(courseId, openId);
 
         return result;
     }

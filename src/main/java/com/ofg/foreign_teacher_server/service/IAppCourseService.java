@@ -9,11 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface IAppCourseService {
+    //课程列表接口
     public BaseDataResult<Map<Object, Object>> list(Integer type, Long areaId, HttpServletRequest req);
 
+    //发布课程接口
     public BaseData<String> postCourse(WxCourse course, String openId);
 
+    //订单列表接口
     public BaseData<BaseDataResult<Map<String, Object>>> orderList(String openId, Integer type, HttpServletRequest req);
 
+    //课程详情接口
     public BaseData<Map<String, Object>> getCourseDetails(Long courseId);
+
+    //课程预约接口
+    public BaseData<String> reservationCourse(Long courseId, String openId);
 }
