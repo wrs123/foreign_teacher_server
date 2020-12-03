@@ -15,6 +15,10 @@ public class WxCourse implements Serializable {
 
     private Integer type;
 
+    private Integer delSign;
+
+    private Integer phoneNumber;
+
     private Long coverId;
 
     private Long areaId;
@@ -102,5 +106,21 @@ public class WxCourse implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public Integer getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Integer getDelSign() {
+        return delSign;
+    }
+
+    public void setDelSign(Integer delSign) {
+        this.delSign = delSign;
     }
 }

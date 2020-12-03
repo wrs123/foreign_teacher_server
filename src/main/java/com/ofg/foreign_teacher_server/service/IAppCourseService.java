@@ -16,7 +16,7 @@ public interface IAppCourseService {
     public BaseData<String> postCourse(WxCourse course, String openId);
 
     //订单列表接口
-    public BaseData<BaseDataResult<Map<String, Object>>> orderList(String openId, Integer type, HttpServletRequest req);
+    public BaseData<BaseDataResult<Map<String, Object>>> orderList(String openId, Integer type, Integer status, HttpServletRequest req);
 
     //课程详情接口
     public BaseData<Map<String, Object>> getCourseDetails(Long courseId);

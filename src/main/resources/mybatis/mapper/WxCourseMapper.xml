@@ -10,6 +10,8 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="cover_id" jdbcType="BIGINT" property="coverId" />
     <result column="area_id" jdbcType="BIGINT" property="areaId" />
+    <result column="del_sign" jdbcType="INTEGER" property="delSign" />
+    <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
   </resultMap>
   <resultMap id="ExBaseResultMap" type="com.ofg.foreign_teacher_server.domain.ex.ExWxCourse">
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -32,10 +34,10 @@
     </selectKey>
     insert into wx_course (`name`, description, price, 
       class_time, `type`, cover_id, 
-      area_id)
+      area_id, del_sign, phone_number)
     values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
       #{classTime,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{coverId,jdbcType=BIGINT}, 
-      #{areaId,jdbcType=BIGINT})
+      #{areaId,jdbcType=BIGINT}, #{delSign,jdbcType=INTEGER}, #{phoneNumber,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ofg.foreign_teacher_server.domain.WxCourse">
     update wx_course
@@ -78,17 +80,20 @@
   </select>
   <select id="queryListByUser" parameterType="java.util.Map" resultType="map">
     select wc.id, wc.`name`, wc.description, wc.price, wc.class_time, wac.status as status,
-            f.path as cover
+            f.path as cover, wc.phone_number ad phoneNumber
     from wx_course wc, wx_authcourse wac, sys_file f
     where
       <if test="openId != null">
         wac.user_open_id = #{openId, jdbcType=VARCHAR}
       </if>
-      and wac.type = 1
+      <if test="status != null">
+        and wac.type =#{status, jdbcType=INTEGER}
+      </if>
       <if test="type != null">
-        and wc.type = #{type, jdbcType=INTEGER}
+        and wac.status = #{type, jdbcType=INTEGER}
       </if>
       and f.id = wc.cover_id and wc.id = wac.course_id
+      order by wac.id desc
   </select>
 
   <select id="queryById" parameterType="java.lang.Long" resultType="map" >
@@ -104,6 +109,7 @@
     ) as praiseRate
     from wx_course wc
     where wc.id = #{id, jdbcType=BIGINT}
+
   </select>
 
 </mapper>

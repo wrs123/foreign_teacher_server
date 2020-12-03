@@ -24,10 +24,10 @@ public class OrderController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public BaseData<BaseDataResult<Map<String, Object>>> list(String openId, Integer type, HttpServletRequest req){
+    public BaseData<BaseDataResult<Map<String, Object>>> list(String openId, Integer type, Integer status, HttpServletRequest req){
         BaseData<BaseDataResult<Map<String, Object>>> res = new BaseData<BaseDataResult<Map<String, Object>>>();
 
-        res = appCourseService.orderList(openId, type, req);
+        res = appCourseService.orderList(openId, type, status, req);
 
         return res;
 

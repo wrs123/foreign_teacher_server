@@ -65,11 +65,11 @@ public class AppCourseService implements IAppCourseService {
 
         try{
             wxCourseMapper.insert(course);
-            authcourse.setCourseId(course.getId());
-            authcourse.setUserOpenId(openId);
-            authcourse.setType(0);
-            authcourse.setStatus(0);
-            authcourseMapper.insert(authcourse);
+//            authcourse.setCourseId(course.getId());
+//            authcourse.setUserOpenId(openId);
+//            authcourse.setType(0);
+//            authcourse.setStatus(0);
+//            authcourseMapper.insert(authcourse);
 
             res.setMessage("上传成功");
             res.setCode(200);
@@ -92,7 +92,7 @@ public class AppCourseService implements IAppCourseService {
      * @return
      */
     @Override
-    public BaseData<BaseDataResult<Map<String, Object>>> orderList(String openId, Integer type, HttpServletRequest req) {
+    public BaseData<BaseDataResult<Map<String, Object>>> orderList(String openId, Integer type, Integer status, HttpServletRequest req) {
         BaseData<BaseDataResult<Map<String, Object>>> res = new BaseData<BaseDataResult<Map<String, Object>>>();
         BaseDataResult<Map<String, Object>> list = new BaseDataResult<Map<String, Object>>();
         type = type == null ? 0 : type;
@@ -102,6 +102,7 @@ public class AppCourseService implements IAppCourseService {
 
         param.put("openId", openId);
         param.put("type", type.toString());
+        param.put("status", status.toString());
 
         try{
             List<Map<String, Object>> resultList = wxCourseMapper.queryListByUser(param);
