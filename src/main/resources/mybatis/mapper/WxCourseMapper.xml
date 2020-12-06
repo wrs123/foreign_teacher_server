@@ -80,7 +80,7 @@
   </select>
   <select id="queryListByUser" parameterType="java.util.Map" resultType="map">
     select wc.id, wc.`name`, wc.description, wc.price, wc.class_time, wac.status as status,
-            f.path as cover, wc.phone_number ad phoneNumber
+            f.path as cover, wc.phone_number as phoneNumber
     from wx_course wc, wx_authcourse wac, sys_file f
     where
       <if test="openId != null">
