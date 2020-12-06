@@ -23,4 +23,7 @@ public interface IAppCourseService {
 
     //课程预约接口
     public BaseData<String> reservationCourse(Long courseId, String openId);
+
+    //教师课程处理
+    public BaseData<String> orderDo(String courseId, Integer type);
 }

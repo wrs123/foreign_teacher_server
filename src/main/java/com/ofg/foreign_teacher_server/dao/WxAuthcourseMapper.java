@@ -2,6 +2,7 @@ package com.ofg.foreign_teacher_server.dao;
 
 import com.ofg.foreign_teacher_server.domain.WxAuthcourse;
 import java.util.List;
+import java.util.Map;
 
 public interface WxAuthcourseMapper {
     int deleteByPrimaryKey(Long id);
@@ -13,4 +14,6 @@ public interface WxAuthcourseMapper {
     List<WxAuthcourse> selectAll();
 
     int updateByPrimaryKey(WxAuthcourse record);
+
+    int updateByCourseId(Map<String, Object> map);
 }

@@ -2,7 +2,7 @@ package com.ofg.foreign_teacher_server.domain;
 
 import java.io.Serializable;
 
-public class WxCourse implements Serializable {
+public class WxCourse{
     private Long id;
 
     private String name;
@@ -89,24 +89,24 @@ public class WxCourse implements Serializable {
         this.areaId = areaId;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", description=").append(description);
-        sb.append(", price=").append(price);
-        sb.append(", classTime=").append(classTime);
-        sb.append(", type=").append(type);
-        sb.append(", coverId=").append(coverId);
-        sb.append(", areaId=").append(areaId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(getClass().getSimpleName());
+//        sb.append(" [");
+//        sb.append("Hash = ").append(hashCode());
+//        sb.append(", id=").append(id);
+//        sb.append(", name=").append(name);
+//        sb.append(", description=").append(description);
+//        sb.append(", price=").append(price);
+//        sb.append(", classTime=").append(classTime);
+//        sb.append(", type=").append(type);
+//        sb.append(", coverId=").append(coverId);
+//        sb.append(", areaId=").append(areaId);
+//        sb.append(", serialVersionUID=").append(serialVersionUID);
+//        sb.append("]");
+//        return sb.toString();
+//    }
 
     public Integer getPhoneNumber() {
         return phoneNumber;

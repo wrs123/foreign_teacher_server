@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AppCourseService implements IAppCourseService {
@@ -64,6 +61,9 @@ public class AppCourseService implements IAppCourseService {
         WxAuthcourse authcourse = new WxAuthcourse();
 
         try{
+            System.out.println("开始插入课程");
+            System.out.println(course.getPhoneNumber());
+            course.setDelSign(0);
             wxCourseMapper.insert(course);
 //            authcourse.setCourseId(course.getId());
 //            authcourse.setUserOpenId(openId);
@@ -163,6 +163,7 @@ public class AppCourseService implements IAppCourseService {
             authcourse.setStatus(0);
             authcourse.setType(1);
             authcourse.setCourseId(courseId);
+            authcourse.setCtime(Calendar.getInstance().getTime());
 
             int status = authcourseMapper.insert(authcourse);
             res.setResult("");
@@ -177,5 +178,26 @@ public class AppCourseService implements IAppCourseService {
         }
 
         return res;
+    }
+
+    @Override
+    public BaseData<String> orderDo(String courseId, Integer type) {
+        BaseData<String> res = new BaseData<String>();
+        Map<String, Object> m = new HashMap<String, Object>();
+
+        try {
+            m.put("courseId", courseId);
+            m.put("type", type);
+            int status = authcourseMapper.updateByCourseId(m);
+            res.setResult("");
+            res.setStatus("success");
+            res.setCode(200);
+            res.setMessage("预约成功");
+        }catch (Exception e){
+            res.setCode(500);
+            res.setStatus("fail");
+            res.setMessage(e.getMessage());
+        }
+        return null;
     }
 }

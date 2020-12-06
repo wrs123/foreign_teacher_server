@@ -17,9 +17,9 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into wx_authcourse (user_open_id, course_id, `type`, 
-      `status`)
+      `status`, ctime)
     values (#{userOpenId,jdbcType=VARCHAR}, #{courseId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ofg.foreign_teacher_server.domain.WxAuthcourse">
     update wx_authcourse
@@ -28,6 +28,15 @@
       `type` = #{type,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByCourseId" parameterType="java.util.Map" >
+    update wx_authcourse
+    <if test="status != null">
+      set status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="courseId != null">
+      where courseId = #{courseId,jdbcType=BIGINT}
+    </if>
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select id, user_open_id, course_id, `type`, `status`

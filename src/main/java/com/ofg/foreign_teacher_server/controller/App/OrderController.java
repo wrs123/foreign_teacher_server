@@ -32,4 +32,11 @@ public class OrderController {
         return res;
 
     }
+
+    @RequestMapping(value = "/orderDo", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseData<String> orderDo(String courseId, Integer type){
+
+        return appCourseService.orderDo(courseId, type);
+    }
 }

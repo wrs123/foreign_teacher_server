@@ -1,6 +1,8 @@
 package com.ofg.foreign_teacher_server.domain;
 
+import javax.xml.crypto.Data;
 import java.io.Serializable;
+import java.util.Date;
 
 public class WxAuthcourse implements Serializable {
     private Long id;
@@ -12,6 +14,8 @@ public class WxAuthcourse implements Serializable {
     private Integer type;
 
     private Integer status;
+
+    private Date ctime;
 
     private static final long serialVersionUID = 1L;
 
@@ -69,5 +73,13 @@ public class WxAuthcourse implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public Date getCtime() {
+        return ctime;
+    }
+
+    public void setCtime(Date ctime) {
+        this.ctime = ctime;
     }
 }
