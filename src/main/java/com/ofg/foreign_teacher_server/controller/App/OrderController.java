@@ -1,5 +1,6 @@
 package com.ofg.foreign_teacher_server.controller.App;
 
+import com.ofg.foreign_teacher_server.domain.WxAuthcourse;
 import com.ofg.foreign_teacher_server.domain.WxCourse;
 import com.ofg.foreign_teacher_server.domain.ex.BaseData;
 import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
@@ -35,8 +36,8 @@ public class OrderController {
 
     @RequestMapping(value = "/orderDo", method = RequestMethod.POST)
     @ResponseBody
-    public BaseData<String> orderDo(String courseId, Integer type){
+    public BaseData<String> orderDo(WxAuthcourse authcourse){
 
-        return appCourseService.orderDo(courseId, type);
+        return appCourseService.orderDo(authcourse);
     }
 }

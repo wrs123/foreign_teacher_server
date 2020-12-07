@@ -1,5 +1,7 @@
 package com.ofg.foreign_teacher_server.domain;
 
+
+
 import java.io.Serializable;
 
 public class WxCourse{
@@ -17,11 +19,13 @@ public class WxCourse{
 
     private Integer delSign;
 
-    private Integer phoneNumber;
+    private Long phoneNumber;
 
     private Long coverId;
 
     private Long areaId;
+
+    private String openId;
 
     private static final long serialVersionUID = 1L;
 
@@ -108,11 +112,11 @@ public class WxCourse{
 //        return sb.toString();
 //    }
 
-    public Integer getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -122,5 +126,13 @@ public class WxCourse{
 
     public void setDelSign(Integer delSign) {
         this.delSign = delSign;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 }

@@ -6,7 +6,6 @@ import com.ofg.foreign_teacher_server.domain.WxAuthcourse;
 import com.ofg.foreign_teacher_server.domain.WxCourse;
 import com.ofg.foreign_teacher_server.domain.ex.BaseData;
 import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
-import com.ofg.foreign_teacher_server.domain.ex.ExWxCourse;
 import com.ofg.foreign_teacher_server.service.IAppCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +54,7 @@ public class AppCourseService implements IAppCourseService {
      * @return
      */
     @Override
-    public BaseData<String> postCourse(WxCourse course, String openId) {
+    public BaseData<String> postCourse(WxCourse course) {
         BaseData<String> res = new BaseData<String>();
 
         WxAuthcourse authcourse = new WxAuthcourse();
@@ -102,10 +101,20 @@ public class AppCourseService implements IAppCourseService {
 
         param.put("openId", openId);
         param.put("type", type.toString());
-        param.put("status", status.toString());
+        param.put("status", status);
+        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
         try{
-            List<Map<String, Object>> resultList = wxCourseMapper.queryListByUser(param);
+            if(type == 1){
+                if(status == 999){
+                    resultList = authcourseMapper.queryListByUserStatus(param);
+                }else{
+                    resultList = wxCourseMapper.queryListByUser(param);
+                }
+            }else if(type == 0){
+                resultList = authcourseMapper.queryListByUserTeacher(param);
+            }
+
             List<Map<String, Object>> newResultList = new ArrayList<Map<String, Object>>();
             for(Map<String, Object> r : resultList){
                 r.replace("cover", pathUrl + "/ft" + r.get("cover"));
@@ -181,23 +190,20 @@ public class AppCourseService implements IAppCourseService {
     }
 
     @Override
-    public BaseData<String> orderDo(String courseId, Integer type) {
+    public BaseData<String> orderDo(WxAuthcourse authcourse) {
         BaseData<String> res = new BaseData<String>();
-        Map<String, Object> m = new HashMap<String, Object>();
 
         try {
-            m.put("courseId", courseId);
-            m.put("type", type);
-            int status = authcourseMapper.updateByCourseId(m);
+            int status = authcourseMapper.updateByCourseId(authcourse);
             res.setResult("");
             res.setStatus("success");
             res.setCode(200);
-            res.setMessage("预约成功");
+            res.setMessage("处理成功");
         }catch (Exception e){
             res.setCode(500);
             res.setStatus("fail");
-            res.setMessage(e.getMessage());
+            res.setMessage("处理失败"+e.getMessage());
         }
-        return null;
+        return res;
     }
 }

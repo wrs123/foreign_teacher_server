@@ -11,7 +11,8 @@
     <result column="cover_id" jdbcType="BIGINT" property="coverId" />
     <result column="area_id" jdbcType="BIGINT" property="areaId" />
     <result column="del_sign" jdbcType="INTEGER" property="delSign" />
-    <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
+    <result column="phone_number" jdbcType="BIGINT" property="phoneNumber" />
+    <result column="user_open_id" jdbcType="VARCHAR" property="openId" />
   </resultMap>
   <resultMap id="ExBaseResultMap" type="com.ofg.foreign_teacher_server.domain.ex.ExWxCourse">
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -34,10 +35,11 @@
     </selectKey>
     insert into wx_course (`name`, description, price, 
       class_time, `type`, cover_id, 
-      area_id, del_sign, phone_number)
+      area_id, del_sign, phone_number, user_open_id)
     values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
       #{classTime,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{coverId,jdbcType=BIGINT}, 
-      #{areaId,jdbcType=BIGINT}, #{delSign,jdbcType=INTEGER}, #{phoneNumber,jdbcType=INTEGER})
+      #{areaId,jdbcType=BIGINT}, #{delSign,jdbcType=INTEGER}, #{phoneNumber,jdbcType=BIGINT},
+    #{openId,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ofg.foreign_teacher_server.domain.WxCourse">
     update wx_course
@@ -80,17 +82,15 @@
   </select>
   <select id="queryListByUser" parameterType="java.util.Map" resultType="map">
     select wc.id, wc.`name`, wc.description, wc.price, wc.class_time, wac.status as status,
-            f.path as cover, wc.phone_number as phoneNumber, date_format(wac.ctime, '%m-%d %H:%i:%s') as ctime
+            f.path as cover, wc.phone_number as phoneNumber, date_format(wac.ctime, '%m-%d %H:%i:%s') as ctime,
+            wac.user_open_id as userId
     from wx_course wc, wx_authcourse wac, sys_file f
     where
       <if test="openId != null">
         wac.user_open_id = #{openId, jdbcType=VARCHAR}
       </if>
       <if test="status != null">
-        and wac.type =#{status, jdbcType=INTEGER}
-      </if>
-      <if test="type != null">
-        and wac.status = #{type, jdbcType=INTEGER}
+        and wac.status =#{status, jdbcType=INTEGER}
       </if>
       and f.id = wc.cover_id and wc.id = wac.course_id
       order by wac.id desc

@@ -15,5 +15,11 @@ public interface WxAuthcourseMapper {
 
     int updateByPrimaryKey(WxAuthcourse record);
 
-    int updateByCourseId(Map<String, Object> map);
+    int updateByCourseId(WxAuthcourse authcourse);
+
+    List<Map<String, Object>> queryListByUserStatus(Map<String, Object> map);
+
+    List<Map<String, Object>> queryListByUserTeacher(Map<String, Object> map);
+
+
 }

@@ -46,10 +46,10 @@ public class PostController {
 
     @RequestMapping(value = "/course", method = RequestMethod.POST)
     @ResponseBody
-    public BaseData<String> post(WxCourse course, @RequestParam("openId")String userId){
+    public BaseData<String> post(WxCourse course){
         BaseData<String> result = new BaseData<String>();
 
-        result = courseService.postCourse(course, userId);
+        result = courseService.postCourse(course);
 
         return result;
     }

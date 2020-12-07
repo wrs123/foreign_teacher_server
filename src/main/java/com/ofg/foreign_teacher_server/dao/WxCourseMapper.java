@@ -25,4 +25,6 @@ public interface WxCourseMapper {
 
     Map<String, Object> queryById(Long id);
 
+
+
 }

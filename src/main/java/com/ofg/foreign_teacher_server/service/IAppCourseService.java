@@ -1,5 +1,6 @@
 package com.ofg.foreign_teacher_server.service;
 
+import com.ofg.foreign_teacher_server.domain.WxAuthcourse;
 import com.ofg.foreign_teacher_server.domain.WxCourse;
 import com.ofg.foreign_teacher_server.domain.ex.BaseData;
 import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
@@ -13,7 +14,7 @@ public interface IAppCourseService {
     public BaseDataResult<Map<Object, Object>> list(Integer type, Long areaId, HttpServletRequest req);
 
     //发布课程接口
-    public BaseData<String> postCourse(WxCourse course, String openId);
+    public BaseData<String> postCourse(WxCourse course);
 
     //订单列表接口
     public BaseData<BaseDataResult<Map<String, Object>>> orderList(String openId, Integer type, Integer status, HttpServletRequest req);
@@ -25,5 +26,5 @@ public interface IAppCourseService {
     public BaseData<String> reservationCourse(Long courseId, String openId);
 
     //教师课程处理
-    public BaseData<String> orderDo(String courseId, Integer type);
+    public BaseData<String> orderDo(WxAuthcourse authcourse);
 }
