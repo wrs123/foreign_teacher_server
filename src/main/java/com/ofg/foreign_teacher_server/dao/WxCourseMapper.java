@@ -25,6 +25,9 @@ public interface WxCourseMapper {
 
     Map<String, Object> queryById(Long id);
 
+    List<Map<String, Object>> queryListByCourseName(String courseName);
+
+
 
 
 }

@@ -96,6 +96,25 @@
       order by wac.id desc
   </select>
 
+  <select id="queryListByCourseName" parameterType="java.lang.String" resultType="map">
+    select wc.id, wc.`name`, wc.description, wc.price, wc.class_time, (
+      select count(wac.type)
+      from wx_authcourse wac
+      where wac.course_id = wc.id and wac.type = 1
+    ) as authCourseCount,
+    (
+      select count(id)
+      from wx_comment wcm
+      where wcm.course_id = wc.id
+    ) as commentCount,
+    f.path as cover
+    from wx_course wc, sys_file f
+    where
+    <if test="courseName != null">
+      wc.name like CONCAT('%',#{courseName, jdbcType=VARCHAR},'%')
+    </if>
+    and f.id = wc.cover_id
+  </select>
   <select id="queryById" parameterType="java.lang.Long" resultType="map" >
     select wc.id, (
         select count(if(wac.type = 1,true,null))

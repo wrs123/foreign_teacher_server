@@ -72,4 +72,20 @@ public class AppCourseController {
     }
 
 
+    /**
+     * 获取课程列表
+     * @param coursename
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseData<BaseDataResult<Map<String, Object>>> search(String coursename, HttpServletRequest req){
+        BaseData<BaseDataResult<Map<String, Object>>> list = new BaseData<BaseDataResult<Map<String, Object>>>();
+
+        list = appCourseService.search(coursename, req);
+
+        return list;
+    }
+
 }

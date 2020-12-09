@@ -4,7 +4,6 @@ import com.ofg.foreign_teacher_server.domain.WxAuthcourse;
 import com.ofg.foreign_teacher_server.domain.WxCourse;
 import com.ofg.foreign_teacher_server.domain.ex.BaseData;
 import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
-import com.ofg.foreign_teacher_server.domain.ex.ExWxCourse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -12,6 +11,8 @@ import java.util.Map;
 public interface IAppCourseService {
     //课程列表接口
     public BaseDataResult<Map<Object, Object>> list(Integer type, Long areaId, HttpServletRequest req);
+    //搜索课程接口
+    public BaseData<BaseDataResult<Map<String, Object>>> search(String courseId, HttpServletRequest req);
 
     //发布课程接口
     public BaseData<String> postCourse(WxCourse course);

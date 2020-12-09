@@ -48,9 +48,46 @@ public class AppCourseService implements IAppCourseService {
     }
 
     /**
+     * 搜索课程接口
+     * @param courseName
+     * @param req
+     * @return
+     */
+    @Override
+    public BaseData<BaseDataResult<Map<String, Object>>> search(String courseName, HttpServletRequest req) {
+        BaseDataResult<Map<String, Object>> list = new BaseDataResult<Map<String, Object>>();
+        BaseData<BaseDataResult<Map<String, Object>>> res = new BaseData<BaseDataResult<Map<String, Object>>>();
+
+        try {
+            String pathUrl = req.getScheme() + "://" + req.getServerName() + ":"
+                    + req.getServerPort();
+
+            List<Map<String, Object>> resultList = wxCourseMapper.queryListByCourseName(courseName);
+            List<Map<String, Object>> newResultList = new ArrayList<Map<String, Object>>();
+            for(Map<String, Object> r : resultList){
+                r.replace("cover", pathUrl + "/ft" + r.get("cover"));
+                newResultList.add(r);
+            }
+            list.setResultList(newResultList);
+            res.setResult(list);
+            res.setMessage("获取成功");
+            res.setCode(200);
+            res.setStatus("success");
+        }catch (Exception e){
+            res.setMessage(e.getMessage());
+            res.setMessage(e.getMessage());
+            res.setCode(500);
+        }
+
+
+
+
+        return res;
+    }
+
+    /**
      * 发布课程
      * @param course
-     * @param openId
      * @return
      */
     @Override
