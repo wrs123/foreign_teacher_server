@@ -8,4 +8,6 @@ import com.ofg.foreign_teacher_server.domain.ex.ExWxComment;
 public interface IWxCommentService {
 
     public BaseData<BaseDataResult<ExWxComment>> query(Long courseId);
+
+    public BaseData<String> insert(WxComment wxComment);
 }

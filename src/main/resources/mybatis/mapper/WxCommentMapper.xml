@@ -9,6 +9,7 @@
     <result column="recomment" jdbcType="VARCHAR" property="recomment" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="star" jdbcType="INTEGER" property="star" />
   </resultMap>
   <resultMap id="ExResultMap" type="com.ofg.foreign_teacher_server.domain.ex.ExWxComment">
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -27,10 +28,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into wx_comment (content, ctime, delete_sign, 
-      recomment, user_id, course_id
+      recomment, user_id, course_id, star
       )
     values (#{content,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{deleteSign,jdbcType=INTEGER}, 
-      #{recomment,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}
+      #{recomment,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT},#{star,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ofg.foreign_teacher_server.domain.WxComment">

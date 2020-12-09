@@ -3,7 +3,7 @@ package com.ofg.foreign_teacher_server.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-public class WxComment implements Serializable {
+public class WxComment {
     private Long id;
 
     private String content;
@@ -17,6 +17,8 @@ public class WxComment implements Serializable {
     private Long userId;
 
     private Long courseId;
+
+    private Integer star;
 
     private static final long serialVersionUID = 1L;
 
@@ -76,21 +78,29 @@ public class WxComment implements Serializable {
         this.courseId = courseId;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", content=").append(content);
-        sb.append(", ctime=").append(ctime);
-        sb.append(", deleteSign=").append(deleteSign);
-        sb.append(", recomment=").append(recomment);
-        sb.append(", userId=").append(userId);
-        sb.append(", courseId=").append(courseId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(getClass().getSimpleName());
+//        sb.append(" [");
+//        sb.append("Hash = ").append(hashCode());
+//        sb.append(", id=").append(id);
+//        sb.append(", content=").append(content);
+//        sb.append(", ctime=").append(ctime);
+//        sb.append(", deleteSign=").append(deleteSign);
+//        sb.append(", recomment=").append(recomment);
+//        sb.append(", userId=").append(userId);
+//        sb.append(", courseId=").append(courseId);
+//        sb.append(", serialVersionUID=").append(serialVersionUID);
+//        sb.append("]");
+//        return sb.toString();
+//    }
+
+    public Integer getStar() {
+        return star;
+    }
+
+    public void setStar(Integer star) {
+        this.star = star;
     }
 }

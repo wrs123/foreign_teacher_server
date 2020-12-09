@@ -1,12 +1,15 @@
 package com.ofg.foreign_teacher_server.service.Impl;
 
 import com.ofg.foreign_teacher_server.dao.WxCommentMapper;
+import com.ofg.foreign_teacher_server.domain.WxComment;
 import com.ofg.foreign_teacher_server.domain.ex.BaseData;
 import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
 import com.ofg.foreign_teacher_server.domain.ex.ExWxComment;
 import com.ofg.foreign_teacher_server.service.IWxCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
 
 @Service
 public class WxCommentService implements IWxCommentService {
@@ -32,5 +35,30 @@ public class WxCommentService implements IWxCommentService {
         }
 
         return res;
+    }
+
+
+    @Override
+    public BaseData<String> insert(WxComment wxComment) {
+
+        BaseData<String> result = new BaseData<String>();
+
+        try {
+            wxComment.setCtime(Calendar.getInstance().getTime());
+            wxComment.setDeleteSign(0);
+            wxCommentMapper.insert(wxComment);
+            result.setResult("");
+            result.setStatus("success");
+            result.setCode(200);
+            result.setMessage("评论成功");
+
+        }catch (Exception e){
+            result.setMessage(e.getMessage());
+            result.setCode(500);
+            result.setStatus("fail");
+        }
+
+
+        return result;
     }
 }

@@ -35,4 +35,14 @@ public class CommentController {
         return res;
     }
 
+    @RequestMapping(value = "/post", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseData<String> post(WxComment wxComment){
+        BaseData<String> res = new BaseData<String>();
+
+        res = wxCommentService.insert(wxComment);
+
+        return res;
+    }
+
 }
