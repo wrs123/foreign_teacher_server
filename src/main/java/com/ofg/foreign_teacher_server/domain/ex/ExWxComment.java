@@ -15,6 +15,10 @@ public class ExWxComment {
 
     private String avatar;
 
+    private Long courseId;
+
+    private String courseName;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +65,21 @@ public class ExWxComment {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

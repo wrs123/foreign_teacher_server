@@ -23,7 +23,7 @@ public class WxCommentService implements IWxCommentService {
         BaseDataResult<ExWxComment> ress = new BaseDataResult<ExWxComment>();
 
         try{
-            ress.setResultList(wxCommentMapper.queryByCourseId(courseId));
+            ress.setResultList(wxCommentMapper.queryByUserId(courseId));
             res.setResult(ress);
             res.setStatus("success");
             res.setCode(200);
@@ -60,5 +60,26 @@ public class WxCommentService implements IWxCommentService {
 
 
         return result;
+    }
+
+    @Override
+    public BaseData<BaseDataResult<ExWxComment>> userComment(Long userId) {
+
+        BaseData<BaseDataResult<ExWxComment>> res = new BaseData<BaseDataResult<ExWxComment>>();
+        BaseDataResult<ExWxComment> ress = new BaseDataResult<ExWxComment>();
+
+        try {
+            ress.setResultList(wxCommentMapper.queryByUserId(userId));
+            res.setResult(ress);
+            res.setStatus("success");
+            res.setCode(200);
+            res.setMessage("获取评论列表成功");
+        }catch (Exception e){
+            res.setMessage(e.getMessage());
+            res.setCode(500);
+            res.setStatus("fail");
+        }
+
+        return res;
     }
 }

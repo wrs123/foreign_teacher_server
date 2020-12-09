@@ -18,6 +18,8 @@
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="star" jdbcType="BIGINT" property="star" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="coursename" jdbcType="VARCHAR" property="courseName" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from wx_comment
@@ -67,5 +69,24 @@
 		)as avatar
     from wx_comment wc
     where wc.course_id = #{courseId, jdbcType=BIGINT}
+  </select>
+  <select id="queryByUserId" parameterType="java.lang.Long" resultType="com.ofg.foreign_teacher_server.domain.ex.ExWxComment">
+    select wc.id, wc.content, date_format(wc.ctime, '%m-%d %H:%i:%s') as ctime, wc.star, (
+        select nickname
+        from sys_user su
+        where su.id = wc.user_id
+    )as user_name, wc.course_id as courseId,
+		(
+			select avatarurl
+      from sys_user su
+      where su.id = wc.user_id
+		)as avatar,
+		(
+          select wcs.name
+          from wx_course wcs
+          where wcs.id = wc.course_id
+		) as coursename
+    from wx_comment wc
+    where wc.user_id = #{userId, jdbcType=BIGINT}
   </select>
 </mapper>

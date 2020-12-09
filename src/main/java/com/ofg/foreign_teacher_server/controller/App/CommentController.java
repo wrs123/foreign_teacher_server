@@ -45,4 +45,14 @@ public class CommentController {
         return res;
     }
 
+    @RequestMapping(value = "/userComment", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseData<BaseDataResult<ExWxComment>> userComment(Long userId){
+        BaseData<BaseDataResult<ExWxComment>> res = new BaseData<BaseDataResult<ExWxComment>>();
+
+        res = wxCommentService.userComment(userId);
+
+        return res;
+    }
+
 }

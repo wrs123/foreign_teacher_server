@@ -20,6 +20,8 @@ public class WxComment {
 
     private Integer star;
 
+    private String courseName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -102,5 +104,13 @@ public class WxComment {
 
     public void setStar(Integer star) {
         this.star = star;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

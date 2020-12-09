@@ -17,4 +17,6 @@ public interface WxCommentMapper {
     int updateByPrimaryKey(WxComment record);
 
     List<ExWxComment> queryByCourseId(Long courseId);
+
+    List<ExWxComment> queryByUserId(Long userId);
 }
