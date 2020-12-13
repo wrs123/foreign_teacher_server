@@ -78,13 +78,13 @@ public class AppCourseController {
      * @param req
      * @return
      */
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
     @ResponseBody
     public BaseData<BaseDataResult<Map<String, Object>>> search(String coursename, HttpServletRequest req){
         BaseData<BaseDataResult<Map<String, Object>>> list = new BaseData<BaseDataResult<Map<String, Object>>>();
-
-        list = appCourseService.search(coursename, req);
-
+        if(coursename != null) {
+            list = appCourseService.search(coursename, req);
+        }
         return list;
     }
 
