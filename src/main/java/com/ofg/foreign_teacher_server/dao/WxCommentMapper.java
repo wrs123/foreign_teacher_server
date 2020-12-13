@@ -18,5 +18,5 @@ public interface WxCommentMapper {
 
     List<ExWxComment> queryByCourseId(Long courseId);
 
-    List<ExWxComment> queryByUserId(Long userId);
+    List<ExWxComment> queryByUserId(String userId);
 }

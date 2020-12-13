@@ -7,7 +7,7 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="delete_sign" jdbcType="INTEGER" property="deleteSign" />
     <result column="recomment" jdbcType="VARCHAR" property="recomment" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="course_id" jdbcType="BIGINT" property="courseId" />
     <result column="star" jdbcType="INTEGER" property="star" />
   </resultMap>
@@ -33,7 +33,7 @@
       recomment, user_id, course_id, star
       )
     values (#{content,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{deleteSign,jdbcType=INTEGER}, 
-      #{recomment,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT},#{star,jdbcType=INTEGER}
+      #{recomment,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{courseId,jdbcType=BIGINT},#{star,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.ofg.foreign_teacher_server.domain.WxComment">
@@ -60,26 +60,26 @@
     select wc.id, wc.content, date_format(wc.ctime, '%m-%d %H:%i:%s') as ctime, wc.star, (
         select nickname
         from sys_user su
-        where su.id = wc.user_id
+        where su.openid = wc.user_id
     )as user_name,
 		(
 			select avatarurl
       from sys_user su
-      where su.id = wc.user_id
+      where su.openid = wc.user_id
 		)as avatar
     from wx_comment wc
     where wc.course_id = #{courseId, jdbcType=BIGINT}
   </select>
-  <select id="queryByUserId" parameterType="java.lang.Long" resultType="com.ofg.foreign_teacher_server.domain.ex.ExWxComment">
+  <select id="queryByUserId" parameterType="java.lang.String" resultType="com.ofg.foreign_teacher_server.domain.ex.ExWxComment">
     select wc.id, wc.content, date_format(wc.ctime, '%m-%d %H:%i:%s') as ctime, wc.star, (
         select nickname
         from sys_user su
-        where su.id = wc.user_id
+        where su.openid = wc.user_id
     )as user_name, wc.course_id as courseId,
 		(
 			select avatarurl
       from sys_user su
-      where su.id = wc.user_id
+      where su.openid = wc.user_id
 		)as avatar,
 		(
           select wcs.name
@@ -87,6 +87,6 @@
           where wcs.id = wc.course_id
 		) as coursename
     from wx_comment wc
-    where wc.user_id = #{userId, jdbcType=BIGINT}
+    where wc.user_id = #{userId, jdbcType=VARCHAR}
   </select>
 </mapper>

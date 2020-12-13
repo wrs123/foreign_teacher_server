@@ -14,7 +14,7 @@ public class WxComment {
 
     private String recomment;
 
-    private Long userId;
+    private String userId;
 
     private Long courseId;
 
@@ -64,11 +64,11 @@ public class WxComment {
         this.recomment = recomment == null ? null : recomment.trim();
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

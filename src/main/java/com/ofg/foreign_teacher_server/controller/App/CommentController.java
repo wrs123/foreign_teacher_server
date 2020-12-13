@@ -37,17 +37,17 @@ public class CommentController {
 
     @RequestMapping(value = "/post", method = RequestMethod.POST)
     @ResponseBody
-    public BaseData<String> post(WxComment wxComment){
+    public BaseData<String> post(WxComment wxComment, Long wacId){
         BaseData<String> res = new BaseData<String>();
 
-        res = wxCommentService.insert(wxComment);
+        res = wxCommentService.insert(wxComment, wacId);
 
         return res;
     }
 
     @RequestMapping(value = "/userComment", method = RequestMethod.GET)
     @ResponseBody
-    public BaseData<BaseDataResult<ExWxComment>> userComment(Long userId){
+    public BaseData<BaseDataResult<ExWxComment>> userComment(String userId){
         BaseData<BaseDataResult<ExWxComment>> res = new BaseData<BaseDataResult<ExWxComment>>();
 
         res = wxCommentService.userComment(userId);

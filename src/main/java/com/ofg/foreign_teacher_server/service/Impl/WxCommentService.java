@@ -1,6 +1,7 @@
 package com.ofg.foreign_teacher_server.service.Impl;
 
 import com.ofg.foreign_teacher_server.dao.WxCommentMapper;
+import com.ofg.foreign_teacher_server.dao.WxCourseMapper;
 import com.ofg.foreign_teacher_server.domain.WxComment;
 import com.ofg.foreign_teacher_server.domain.ex.BaseData;
 import com.ofg.foreign_teacher_server.domain.ex.BaseDataResult;
@@ -17,13 +18,16 @@ public class WxCommentService implements IWxCommentService {
     @Autowired
     private WxCommentMapper wxCommentMapper;
 
+    @Autowired
+    private WxCourseMapper wxCourseMapper;
+
     @Override
     public BaseData<BaseDataResult<ExWxComment>> query(Long courseId) {
         BaseData<BaseDataResult<ExWxComment>> res = new BaseData<BaseDataResult<ExWxComment>>();
         BaseDataResult<ExWxComment> ress = new BaseDataResult<ExWxComment>();
 
         try{
-            ress.setResultList(wxCommentMapper.queryByUserId(courseId));
+            ress.setResultList(wxCommentMapper.queryByCourseId(courseId));
             res.setResult(ress);
             res.setStatus("success");
             res.setCode(200);
@@ -39,7 +43,7 @@ public class WxCommentService implements IWxCommentService {
 
 
     @Override
-    public BaseData<String> insert(WxComment wxComment) {
+    public BaseData<String> insert(WxComment wxComment, Long wacId) {
 
         BaseData<String> result = new BaseData<String>();
 
@@ -47,6 +51,7 @@ public class WxCommentService implements IWxCommentService {
             wxComment.setCtime(Calendar.getInstance().getTime());
             wxComment.setDeleteSign(0);
             wxCommentMapper.insert(wxComment);
+            wxCourseMapper.setStatus(wacId);
             result.setResult("");
             result.setStatus("success");
             result.setCode(200);
@@ -63,7 +68,7 @@ public class WxCommentService implements IWxCommentService {
     }
 
     @Override
-    public BaseData<BaseDataResult<ExWxComment>> userComment(Long userId) {
+    public BaseData<BaseDataResult<ExWxComment>> userComment(String userId) {
 
         BaseData<BaseDataResult<ExWxComment>> res = new BaseData<BaseDataResult<ExWxComment>>();
         BaseDataResult<ExWxComment> ress = new BaseDataResult<ExWxComment>();

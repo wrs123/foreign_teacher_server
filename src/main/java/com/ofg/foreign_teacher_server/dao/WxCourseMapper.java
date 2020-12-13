@@ -19,6 +19,8 @@ public interface WxCourseMapper {
 
     int updateByPrimaryKey(WxCourse record);
 
+    int setStatus(Long courseId);
+
     List<Map<Object, Object>> queryListByType(Integer type);
 
     List<Map<String, Object>> queryListByUser(Map<String, Object> map);

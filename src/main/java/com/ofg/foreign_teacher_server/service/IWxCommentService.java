@@ -9,7 +9,7 @@ public interface IWxCommentService {
 
     public BaseData<BaseDataResult<ExWxComment>> query(Long courseId);
 
-    public BaseData<String> insert(WxComment wxComment);
+    public BaseData<String> insert(WxComment wxComment, Long wacId);
 
-    public BaseData<BaseDataResult<ExWxComment>> userComment(Long userId);
+    public BaseData<BaseDataResult<ExWxComment>> userComment(String userId);
 }

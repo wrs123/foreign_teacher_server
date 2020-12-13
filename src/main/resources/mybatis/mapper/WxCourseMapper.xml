@@ -52,10 +52,15 @@
       area_id = #{areaId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="setStatus" parameterType="java.lang.Long">
+    update wx_authcourse
+    set status = 4
+    where id = #{courseId,jdbcType=BIGINT}
+  </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select id, `name`, description, price, class_time, `type`, cover_id, area_id
     from wx_course
-    where id = #{id,jdbcType=BIGINT}
+    where course_id = #{courseId,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, `name`, description, price, class_time, `type`, cover_id, area_id
@@ -81,9 +86,9 @@
     and f.id = wc.cover_id
   </select>
   <select id="queryListByUser" parameterType="java.util.Map" resultType="map">
-    select wc.id, wc.`name`, wc.description, wc.price, wc.class_time, wac.status as status,
+    select wc.id, wc.`name`, wc.description, wc.price, wc.type as courseType, wc.class_time, wac.status as status,
             f.path as cover, wc.phone_number as phoneNumber, date_format(wac.ctime, '%m-%d %H:%i:%s') as ctime,
-            wac.user_open_id as userId
+            wac.user_open_id as userId, wac.id as wacId
     from wx_course wc, wx_authcourse wac, sys_file f
     where
       <if test="openId != null">
